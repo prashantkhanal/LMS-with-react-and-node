@@ -31,12 +31,12 @@ const TopNav = () => {
       <AppBar position="static">
         <Toolbar disableGutters>
           <Box className={classes.title}>
-            <Link href="/">
-              <Typography variant="h6">Prashant</Typography>
-            </Link>
+            {/* <Link href="/"> */}
+            <Typography variant="h6">Prashant</Typography>
+            {/* </Link> */}
           </Box>
           <Box>
-            <Link>
+            <Link href="/register">
               <Button color="inherit">Login</Button>
             </Link>
             <Button color="inherit">Singup</Button>
