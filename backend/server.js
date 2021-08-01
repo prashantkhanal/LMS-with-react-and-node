@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
@@ -14,6 +15,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+
+// Database connection
+
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then((res) => {
+    console.log(`Database is connected`);
+  })
+  .catch((err) => {
+    console.log('Error' + err);
+  });
 
 //Routes
 fs.readdirSync('./routes').map((r) =>
