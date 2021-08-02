@@ -49,14 +49,11 @@ export default function Register() {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/register`,
-        {
-          fullName,
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post(`api/v1/register`, {
+        fullName,
+        email,
+        password,
+      });
       toast.success('User created sucessfully. Please Login.');
       setLoading(false);
     } catch (err) {
