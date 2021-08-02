@@ -8,6 +8,7 @@ import {
   Container,
   LinearProgress,
 } from '@material-ui/core';
+import Link from 'next/link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
@@ -114,6 +115,18 @@ export default function Register() {
           >
             {loading ? <SyncIcon /> : 'Register'}
           </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Do you want to
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/login" variant="body2">
+                {'Login'}
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
     </Container>
