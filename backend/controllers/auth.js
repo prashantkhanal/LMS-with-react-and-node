@@ -1,28 +1,24 @@
 const User = require('../models/user');
-const { hashPassword } = require('../utils/auth');
+const jwt = require('jsonwebtoken');
 
-const register = async (req, res) => {
+const { hashPassword, compareHashPassword } = require('../utils/auth');
+
+exports.register = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
-
-    //BUG Cheacking the user
+    //*------------->Cheacking the user--------------->
     if (!fullName) return res.status(400).json({ message: 'Name is required' });
-
     if (!password || password.length < 6)
       return res.status(400).json({
         message:
           'Password is required and password should be atleast 6 character long',
       });
-
     //BUG Checking the email
-
     let validateEmail = await User.findOne({ email }).exec();
     if (validateEmail)
       return res.status(400).json({ message: 'Email is already taken' });
-
     //BUG hashing the password
     const hashedPassword = await hashPassword(password);
-
     //BUG saving the user in database
     const user = new User({
       fullName,
@@ -38,4 +34,38 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = register;
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    //Checking the user in the database
+    const user = await User.findOne({ email }).exec();
+    if (!user) return res.status(400).json({ message: 'User Already Exits' });
+    //comparing the password
+    const match = await compareHashPassword(password, user.password);
+    //create the json web token to users
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+    //returning to the user token and user exculuding the cockie
+    user.password = undefined;
+    //send the cockie
+    res.cookie('token', token, {
+      httpOnly: true,
+    });
+    //send the user as a json response
+    res.json({ data: user });
+  } catch (error) {
+    console.log('Error', error);
+    return res.status(400).json({ message: 'Please try again' });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    //clearing the cookie
+    res.clearCookie('token');
+    return res.status(200).json({ message: 'Logout successful' });
+  } catch (err) {
+    console.log('Error', err);
+  }
+};

@@ -114,9 +114,7 @@ export default function Register() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Do you want to
-              </Link>
+              Do you want to
             </Grid>
             <Grid item>
               <Link href="/login" variant="body2">
