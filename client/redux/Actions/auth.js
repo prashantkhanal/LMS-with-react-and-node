@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRef } from 'react';
+
 import { loginContant, logoutContant } from '../constant';
 
 const { LOGIN_FAILED, LOGIN_SUCESS, LOGIN_REQUEST } = loginContant;
@@ -31,5 +31,14 @@ export const login = (user) => {
       });
       //
     }
+  };
+};
+export const isUserLoggedIn = () => {
+  return async (dispatch) => {
+    const data = JSON.parse(window.localStorage.getItem('data'));
+    dispatch({
+      type: authConstants.LOGIN_SUCESS,
+      payload: { data },
+    });
   };
 };

@@ -6,18 +6,16 @@ const morgan = require('morgan');
 
 require('dotenv').config();
 
-//Express App
+//*------------->Express App--------------->
 
 const app = express();
 
-// Middleware
-
+//*------------->Middleware setup--------------->
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Database connection
-
+//*------------->Database connnection--------------->
 mongoose
   .connect(process.env.MONGO_URI, {
     useCreateIndex: true,
@@ -32,7 +30,8 @@ mongoose
     console.log('Error' + err);
   });
 
-//Routes
+//*------------->Routes--------------->
+
 fs.readdirSync('./routes').map((r) =>
   app.use('/api/v1', require(`./routes/${r}`))
 );
@@ -40,9 +39,9 @@ fs.readdirSync('./routes').map((r) =>
 app.get('/', (req, res) => {
   res.send('hello you hit the server');
 });
-// server setup
-const PORT = process.env.PORT || 7000;
+//*------------->Server & Port Setup--------------->
 
+const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
   console.log(`the server is running on http://localhost${PORT}`);
 });

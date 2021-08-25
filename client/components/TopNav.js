@@ -36,10 +36,12 @@ const TopNav = () => {
             {/* </Link> */}
           </Box>
           <Box>
-            <Link href="/register">
+            <Link href="/login">
               <Button color="inherit">Login</Button>
             </Link>
-            <Button color="inherit">Singup</Button>
+            <Link href="/register">
+              <Button color="inherit">Singup</Button>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>

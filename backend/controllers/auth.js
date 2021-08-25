@@ -13,13 +13,16 @@ exports.register = async (req, res) => {
         message:
           'Password is required and password should be atleast 6 character long',
       });
-    //BUG Checking the email
+    //*------------->Checking the email--------------->
+
     let validateEmail = await User.findOne({ email }).exec();
     if (validateEmail)
       return res.status(400).json({ message: 'Email is already taken' });
-    //BUG hashing the password
+    //*------------->hashing the password--------------->
+
     const hashedPassword = await hashPassword(password);
-    //BUG saving the user in database
+    //*------------->saving the user in database--------------->
+
     const user = new User({
       fullName,
       email,
@@ -27,7 +30,6 @@ exports.register = async (req, res) => {
     });
     await user.save();
     return res.status(201).json({ message: 'User Create sucessfully' });
-    console.log('User data' + user);
   } catch (error) {
     console.log('Error' + error);
     return res.status(400).json({ message: 'Error. Please try again Later' });
@@ -37,18 +39,28 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    //Checking the user in the database
+
+    //*------------->Checking the user in the database--------------->
+
     const user = await User.findOne({ email }).exec();
     if (!user) return res.status(400).json({ message: 'User Already Exits' });
-    //comparing the password
+
+    //*------------->Comparing the password--------------->
+
     const match = await compareHashPassword(password, user.password);
-    //create the json web token to users
+
+    //*------------->Create the json web token to user--------------->
+
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
-    //returning to the user token and user exculuding the cockie
+
+    //*------------->returning to the user token and user exculuding the cockie--------------->
+
     user.password = undefined;
     //send the cockie
+    //*------------->--------------->
+
     res.cookie('token', token, {
       httpOnly: true,
     });
