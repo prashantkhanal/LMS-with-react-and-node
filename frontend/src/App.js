@@ -1,12 +1,14 @@
 import { Paper } from '@material-ui/core';
 import { BrowserRouter } from 'react-router-dom';
-import Main from './components/DashBoard/Main';
+// import Main from './components/DashBoard/Main';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <Paper style={{ height: '100vh' }}>
+    <Paper elevation={0}>
       <BrowserRouter>
-        <Main />
+        {/* <Main /> */}
+        <Login />
       </BrowserRouter>
     </Paper>
   );

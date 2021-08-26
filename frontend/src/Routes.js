@@ -1,19 +1,17 @@
-// import { Typography, makeStyles, Box } from '@material-ui/core';
-// import { Route, Switch } from 'react-router-dom';
-// import Dashboard from './components/Dashboard';
-// import Blog from './components/DashBoard/Blog';
-// import NotFound from './components/NotFound';
+import { Typography, makeStyles, Box } from '@material-ui/core';
+import { Route, Switch } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import Blog from './components/DashBoard/Blog';
+import NotFound from './components/NotFound';
+import Login from './pages/Login';
 
-// const Routes = () => {
-//   return (
-//     <Box className={classes.wrapper}>
-//       <Switch>
-//         <Route exact path="/" render={() => <Dashboard />} />
-//         <Route exact path="/blog" render={() => <Blog />} />
-//         <Route exact path="*" render={() => <NotFound />} />
-//       </Switch>
-//     </Box>
-//   );
-// };
+const Routes = () => {
+  return (
+    <Switch>
+      {/* <Route exact path="/" render={() => <M />} /> */}
+      <Route exact path="/login" render={() => <Login />} />
+    </Switch>
+  );
+};
 
-// export default Routes;
+export default Routes;

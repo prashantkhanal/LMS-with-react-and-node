@@ -7,6 +7,7 @@ exports.register = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
     //*------------->Cheacking the user--------------->
+    console.log('backend nodejs');
     if (!fullName) return res.status(400).json({ message: 'Name is required' });
     if (!password || password.length < 6)
       return res.status(400).json({
@@ -43,11 +44,12 @@ exports.login = async (req, res) => {
     //*------------->Checking the user in the database--------------->
 
     const user = await User.findOne({ email }).exec();
-    if (!user) return res.status(400).json({ message: 'User Already Exits' });
+    if (!user) return res.status(400).json({ message: 'User not found' });
 
     //*------------->Comparing the password--------------->
 
     const match = await compareHashPassword(password, user.password);
+    if (!match) return res.status(400).json({ message: 'Invalid Credentails' });
 
     //*------------->Create the json web token to user--------------->
 

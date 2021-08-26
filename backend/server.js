@@ -17,7 +17,7 @@ app.use(morgan('dev'));
 
 //*------------->Database connnection--------------->
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(process.env.MONG0_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,

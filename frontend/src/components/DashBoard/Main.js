@@ -1,12 +1,12 @@
+import React, { lazy, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Dashboard from './Dashboard';
+// import Dashboard from './Dashboard';
 import Blog from './Blog';
 import NotFound from './NotFound';
 import LeftBar from './LeftBar';
 import Navbar from './Navbar';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const LazyDashBorad = lazy(() => import('./Dashboard'));
 
 const Main = () => {
   const classes = useStyles();
@@ -38,11 +40,14 @@ const Main = () => {
         handleDrawerClose={handleDrawerClose}
       />
       <Box className={classes.wrapper}>
-        <Switch>
-          <Route exact path="/" render={() => <Dashboard />} />
-          <Route exact path="/blog" render={() => <Blog />} />
-          <Route exact path="*" render={() => <NotFound />} />
-        </Switch>
+        <React.Suspense fallback="loading">
+          <Switch>
+            <Route exact path="/" render={() => <LazyDashBorad />} />
+
+            <Route exact path="/blog" render={() => <Blog />} />
+            <Route exact path="*" render={() => <NotFound />} />
+          </Switch>
+        </React.Suspense>
       </Box>
     </>
   );
