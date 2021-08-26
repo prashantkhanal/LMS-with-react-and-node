@@ -9,10 +9,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { authLogin } from '../redux/Action';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { loginAction } from '../redux/Action/login.action';
+import { Redirect } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -47,23 +49,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn({ history }) {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const loginReducer = useSelector((state) => state.loginReducer);
+
   const dispatch = useDispatch();
-  console.log(loginReducer);
+  let loading = loginReducer.authenticating;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = {
-      email,
-      password,
-    };
-    console.log('this is the user data', userData);
-    dispatch(loginAction(userData));
+    try {
+      const userData = {
+        email,
+        password,
+      };
+      dispatch(loginAction(userData));
+    } catch (err) {
+      // toast.error(err.resp);
+    }
   };
+  if (loginReducer.authenticate) {
+    console.log('done');
+    <Redirect to="/dashboard" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,16 +112,17 @@ export default function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
+          {loading && <LinearProgress color="secondary" />}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="secondary"
             className={classes.submit}
+            disabled={!email || !password || loading}
             // {!email && !password }
           >
-            Sign In
+            {loading ? 'please wait' : ' Sign In'}
           </Button>
           <Grid container>
             <Grid item xs>

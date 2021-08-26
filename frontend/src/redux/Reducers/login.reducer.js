@@ -1,8 +1,8 @@
 import { loginConstants } from '../Action/constant';
 
 const initState = {
-  data: [],
-  error: '',
+  data: '',
+  error: false,
   authenticating: false,
   authenticate: false,
 };
@@ -14,7 +14,7 @@ const loginReducer = (state = initState, { type, payload }) => {
       state = {
         ...state,
         authenticating: true,
-        error: null,
+        authenticate: false,
       };
       break;
     case loginConstants.LOGIN_SUCESS:
@@ -23,19 +23,16 @@ const loginReducer = (state = initState, { type, payload }) => {
         data: payload.data,
         authenticating: false,
         authenticate: true,
-        error: null,
       };
       break;
     case loginConstants.lOGIN_FAILED:
       state = {
         ...state,
-        error: payload.error,
         authenticate: false,
         authenticating: false,
+        data: '',
       };
-      console.log('error reducers', payload.error);
       break;
-
     //
   }
   return state;

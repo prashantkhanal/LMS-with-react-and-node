@@ -189,7 +189,6 @@ const SideNavList = ({ handleDrawerClose }) => {
           <SubMenu />
         </Box>
       </Box>
-
       <Box className={classes.profile}>
         <Box>
           {/* <img src={prashant} alt="logo" className={classes.profileImageLogo} /> */}
